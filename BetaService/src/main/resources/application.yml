@@ -1,0 +1,17 @@
+server:
+  port: 0 # 매번 포트 번호를 랜덤으로 생성
+spring:
+  application:
+    name: beta-service
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka # Eureka Server 명시
+  instance:
+    # instance-id를 구분지어주지 않으면 instance UP(1)로 고정됨
+    instance-id: ${spring.application.name}(${random.uuid})
+    lease-renewal-interval-in-seconds: 30     # 서버로 heartbeat를 보내는 주기. 기본 값 : 30 (초)
+    lease-expiration-duration-in-seconds: 90  # heartbeat가 수신되지 않으면 eureka 서버에서 인스턴스 제거 기본 값 : 90 (초)

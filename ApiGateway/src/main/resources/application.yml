@@ -1,0 +1,25 @@
+server:
+  port: 8000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+spring:
+  application:
+    name: apigateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: alpha-service
+          predicates:
+            - Path=/alpha/**
+          uri: lb://ALPHA-SERVICE
+          filters:
+            - RewritePath=/alpha/(?<segment>.*), /$\{segment}
+        - id: beta-service
+          predicates:
+            - Path=/beta/**
+          uri: lb://BETA-SERVICE
+          filters:
+            - RewritePath=/beta/(?<segment>.*), /$\{segment}
